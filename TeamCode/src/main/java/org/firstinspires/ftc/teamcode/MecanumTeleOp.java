@@ -12,9 +12,9 @@ public class MecanumTeleOp extends LinearOpMode {
         // Declare our motors
         // Make sure your ID's match your configuration
         DcMotor motorFrontLeft = hardwareMap.dcMotor.get("leftFront");
-        DcMotor motorBackLeft = hardwareMap.dcMotor.get("leftBack");
+        DcMotor motorBackLeft = hardwareMap.dcMotor.get("leftRear");
         DcMotor motorFrontRight = hardwareMap.dcMotor.get("rightFront");
-        DcMotor motorBackRight = hardwareMap.dcMotor.get("rightBack");
+        DcMotor motorBackRight = hardwareMap.dcMotor.get("rightRear");
 
         // Reverse the right side motors
         // Reverse left motors if you are using NeveRests

@@ -14,9 +14,9 @@ public class FieldCentricTeleop extends LinearOpMode {
         // Declare our motors
         // Make sure your ID's match your configuration
         DcMotor frontLeft = hardwareMap.dcMotor.get("leftFront");
-        DcMotor backLeft = hardwareMap.dcMotor.get("leftBack");
+        DcMotor backLeft = hardwareMap.dcMotor.get("leftRear");
         DcMotor frontRight = hardwareMap.dcMotor.get("rightFront");
-        DcMotor backRight = hardwareMap.dcMotor.get("rightBack");
+        DcMotor backRight = hardwareMap.dcMotor.get("rightRear");
         CRServo testServo1 = hardwareMap.crservo.get("testServo1");
         CRServo testServo2 = hardwareMap.crservo.get("testServo2");
 

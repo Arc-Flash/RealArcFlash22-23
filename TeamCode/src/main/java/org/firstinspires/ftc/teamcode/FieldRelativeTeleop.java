@@ -29,9 +29,9 @@ public class FieldRelativeTeleop extends LinearOpMode {
     public void runOpMode(){
         //@TODO Check hardware mappings
         frontLeft = hardwareMap.get(DcMotor.class,"leftFront");
-        backLeft = hardwareMap.get(DcMotor.class,"leftBack");
+        backLeft = hardwareMap.get(DcMotor.class,"leftRear");
         frontRight = hardwareMap.get(DcMotor.class,"rightFront");
-        backRight = hardwareMap.get(DcMotor.class,"rightBack");
+        backRight = hardwareMap.get(DcMotor.class,"rightRear");
         testServo1 = hardwareMap.get(CRServo.class,"testServo1");
         testServo2 = hardwareMap.get(CRServo.class,"testServo2");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
