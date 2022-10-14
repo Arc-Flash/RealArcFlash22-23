@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -14,6 +15,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
     private DcMotor backLeft;
     private DcMotor frontRight;
     private DcMotor backRight;
+    private CRServo testServo1;
+    private CRServo testServo2;
     private BNO055IMU imu;
 
     double speedModifier = 0.8; //@TODO If your drivers complain that the robot is too fast fix this :)
@@ -28,6 +31,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
         backLeft = hardwareMap.get(DcMotor.class,"leftBack");
         frontRight = hardwareMap.get(DcMotor.class,"rightFront");
         backRight = hardwareMap.get(DcMotor.class,"rightBack");
+        testServo1 = hardwareMap.get(CRServo.class,"testServo1");
+        testServo2 = hardwareMap.get(CRServo.class,"testServo2");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         initIMU();
         //since this is mecanum
