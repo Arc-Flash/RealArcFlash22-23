@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "FieldCentric")
 public class FieldCentricTeleop extends LinearOpMode {
@@ -15,6 +17,8 @@ public class FieldCentricTeleop extends LinearOpMode {
         DcMotor backLeft = hardwareMap.dcMotor.get("leftBack");
         DcMotor frontRight = hardwareMap.dcMotor.get("rightFront");
         DcMotor backRight = hardwareMap.dcMotor.get("rightBack");
+        CRServo testServo1 = hardwareMap.crservo.get("testServo1");
+        CRServo testServo2 = hardwareMap.crservo.get("testServo2");
 
         // Reverse the right side motors
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -45,6 +49,7 @@ public class FieldCentricTeleop extends LinearOpMode {
             double backLeftPower = rotY - rotX + turn;
             double frontRightPower = rotY - rotX - turn;
             double backRightPower = rotY + rotX - turn;
+            double servoPower = 0.5;
 
             // Put powers in the range of -1 to 1 only if they aren't already
             // Not checking would cause us to always drive at full speed
@@ -68,6 +73,8 @@ public class FieldCentricTeleop extends LinearOpMode {
             backLeft.setPower(backLeftPower);
             frontRight.setPower(frontRightPower);
             backRight.setPower(backRightPower);
+            testServo1.setPower(servoPower);
+            testServo2.setPower(servoPower);
         }
     }
 }
