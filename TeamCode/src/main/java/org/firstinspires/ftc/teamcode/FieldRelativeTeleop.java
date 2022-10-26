@@ -75,6 +75,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
         double rightFrontPower = speed * Math.sin(LeftStickAngle - robotAngle) - rightX;
         double leftBackPower = speed * Math.sin(LeftStickAngle - robotAngle) + rightX;
         double rightBackPower = speed * Math.cos(LeftStickAngle - robotAngle) - rightX;
+        double testServo1Power = speed * Math.cos(LeftStickAngle - robotAngle) + rightX;
+        double testServo2Power = speed * Math.cos(LeftStickAngle - robotAngle) + rightX;
 
 
         speedModifier = .8 + (.8 * gamepad1.right_trigger) - (.4 * gamepad1.left_trigger);
@@ -85,6 +87,9 @@ public class FieldRelativeTeleop extends LinearOpMode {
         frontRight.setPower(rightFrontPower * speedModifier);
         backLeft.setPower(leftBackPower * speedModifier);
         backRight.setPower(rightBackPower * speedModifier);
+        testServo1.setPower(testServo1Power * speedModifier);
+        testServo2.setPower(testServo2Power * speedModifier);
+
 
     }
     public double getRawExternalHeading() {
