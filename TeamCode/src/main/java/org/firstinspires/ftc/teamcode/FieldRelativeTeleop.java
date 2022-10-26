@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.outoftheboxrobotics.photoncore.PhotonCore;
+//import com.outoftheboxrobotics.photoncore.PhotonCore;
 
 
 @TeleOp(name = "Field Relative")
@@ -79,8 +79,9 @@ public class FieldRelativeTeleop extends LinearOpMode {
         double testServo2Power = speed * Math.cos(LeftStickAngle - robotAngle) + rightX;
 
 
-        speedModifier = .8 + (.8 * gamepad1.right_trigger) - (.4 * gamepad1.left_trigger);
-        //Our drivers are video game players so this is why we added this ^
+//        speedModifier = .8 + (.8 * gamepad1.right_trigger) - (.4 * gamepad1.left_trigger);
+//        Our drivers are video game players so this is why we added this ^
+//        No Davi, We are NOT Having a Speed Boost!!!!
 
         //setting powers correctly
         frontLeft.setPower(leftFrontPower * speedModifier);
@@ -89,6 +90,15 @@ public class FieldRelativeTeleop extends LinearOpMode {
         backRight.setPower(rightBackPower * speedModifier);
         testServo1.setPower(testServo1Power * speedModifier);
         testServo2.setPower(testServo2Power * speedModifier);
+
+        telemetry.addData("Robot Angle: ", robotAngle);
+        telemetry.addData("Front Left Power: ", leftFrontPower);
+        telemetry.addData("Front Right Power: ", rightFrontPower);
+        telemetry.addData("Rear Left Power: ", leftBackPower);
+        telemetry.addData("Rear Right Power: ", rightBackPower);
+        telemetry.addData("Servo 1 Power: ",testServo1Power);
+        telemetry.addData("Servo 2 Power: ",testServo2Power);
+
 
 
     }
