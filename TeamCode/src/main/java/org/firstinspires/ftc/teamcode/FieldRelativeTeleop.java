@@ -99,9 +99,12 @@ public class FieldRelativeTeleop extends LinearOpMode {
         telemetry.addData("Servo 1 Power: ",testServo1Power);
         telemetry.addData("Servo 2 Power: ",testServo2Power);
 
-
-
+        telemetry.update();
     }
+
+
+
+
     public double getRawExternalHeading() {
         //gives us the robot angle
         return imu.getAngularOrientation().firstAngle;
