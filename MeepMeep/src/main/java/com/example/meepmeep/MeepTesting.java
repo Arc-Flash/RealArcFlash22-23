@@ -3,6 +3,7 @@ package com.example.meepmeep;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeBlueDark;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
+import com.noahbres.meepmeep.core.colorscheme.scheme.*;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
