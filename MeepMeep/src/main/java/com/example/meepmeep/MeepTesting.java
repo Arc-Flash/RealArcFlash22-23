@@ -14,42 +14,54 @@ public class MeepTesting {
 
         RoadRunnerBotEntity ArcFlashBot = new DefaultBotBuilder(meep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
+                .setConstraints(100, 100, Math.toRadians(180), Math.toRadians(180), 13)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-38, -60, Math.toRadians(90) ))
                                 .strafeRight(26)
                                 .forward(48)
                                 .strafeLeft(43)
                                 .turn(Math.toRadians(90))
+                                .waitSeconds(.5)
 
                                 .turn(Math.toRadians(-60))
                                 .back(5)
+                                .waitSeconds(.5)
                                 .forward(5)
                                 .turn(Math.toRadians(60))
+                                .waitSeconds(.5)
 
                                 .turn(Math.toRadians(-60))
                                 .back(5)
+                                .waitSeconds(.5)
                                 .forward(5)
                                 .turn(Math.toRadians(60))
+                                .waitSeconds(.5)
 
                                 .turn(Math.toRadians(-60))
                                 .back(5)
+                                .waitSeconds(.5)
                                 .forward(5)
                                 .turn(Math.toRadians(60))
+                                .waitSeconds(.5)
 
                                 .turn(Math.toRadians(-60))
                                 .back(5)
+                                .waitSeconds(.5)
                                 .forward(5)
                                 .turn(Math.toRadians(60))
+                                .waitSeconds(.5)
 
                                 .turn(Math.toRadians(-60))
                                 .back(5)
+                                .waitSeconds(.5)
                                 .forward(5)
                                 .turn(Math.toRadians(60))
+                                .waitSeconds(.5)
 
                                 .forward(4)
                                 .turn(Math.toRadians(90))
                                 .forward(50)
+
 
                                 .build()
                 );
