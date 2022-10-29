@@ -26,6 +26,11 @@ public class Blue1Auto extends LinearOpMode {
                 .forward(50)
                 .build();
 
+        TrajectorySequence testoblique = drivetrain.trajectorySequenceBuilder(forward.end())
+                .turn(Math.toRadians(45))
+                .back(3)
+                .build();
+
         TrajectorySequence strafeleft = drivetrain.trajectorySequenceBuilder(forward.end())
                 .strafeLeft(42)
                 .turn(Math.toRadians(90))
