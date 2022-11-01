@@ -14,7 +14,7 @@ public class MeepTesting {
 
         RoadRunnerBotEntity ArcFlashBot = new DefaultBotBuilder(meep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(100, 100, Math.toRadians(180), Math.toRadians(180), 13)
+                .setConstraints(200, 100, Math.toRadians(180), Math.toRadians(180), 13)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-38, -60, Math.toRadians(90) ))
                                 .strafeRight(26)
