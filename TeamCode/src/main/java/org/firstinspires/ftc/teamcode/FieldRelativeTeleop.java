@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-//import com.outoftheboxrobotics.photoncore.PhotonCore;
+import com.outoftheboxrobotics.photoncore.PhotonCore;
 
 
 @TeleOp(name = "Field Relative")
@@ -27,6 +27,7 @@ public class FieldRelativeTeleop extends LinearOpMode {
     //the front of the robot away from them (i.e. the front of the robot is facing your opponents) and then press x.
     @Override
     public void runOpMode(){
+        PhotonCore.enable();
         //@TODO Check hardware mappings
         frontLeft = hardwareMap.get(DcMotor.class,"leftFront");
         backLeft = hardwareMap.get(DcMotor.class,"leftRear");
