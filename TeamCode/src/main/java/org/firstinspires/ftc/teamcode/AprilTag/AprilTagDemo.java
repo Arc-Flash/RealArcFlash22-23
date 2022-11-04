@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.AprilTag;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -53,7 +54,9 @@ public class AprilTagDemo extends LinearOpMode
             public void onOpened()
             {
                 camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+                FtcDashboard.getInstance().startCameraStream(camera, 30);
             }
+
 
             @Override
             public void onError(int errorCode)
