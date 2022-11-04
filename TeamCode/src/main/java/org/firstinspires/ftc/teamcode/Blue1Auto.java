@@ -23,36 +23,68 @@ public class Blue1Auto extends LinearOpMode {
                 .build();
 
         Trajectory forward = drivetrain.trajectoryBuilder(strafeRight.end())
-                .forward(50)
+                .forward(48)
                 .build();
 
-        TrajectorySequence testoblique = drivetrain.trajectorySequenceBuilder(forward.end())
-                .turn(Math.toRadians(45))
-                .back(3)
-                .build();
+//        TrajectorySequence testoblique = drivetrain.trajectorySequenceBuilder(forward.end())
+//                .turn(Math.toRadians(45))
+//                .back(3)
+//                .build();
 
         TrajectorySequence strafeleft = drivetrain.trajectorySequenceBuilder(forward.end())
-                .strafeLeft(42)
+                .strafeLeft(43)
                 .turn(Math.toRadians(90))
+                .waitSeconds(.5)
                 .build();
 
    TrajectorySequence oblique1 = drivetrain.trajectorySequenceBuilder(strafeleft.end())
-                .turn(Math.toRadians(-33.8))
-                .strafeLeft(10)
-                .turn(Math.toRadians(33.8))
-                .strafeRight(10)
-                .back(3)
-                .turn(Math.toRadians(-33.8))
-                .strafeLeft(8)
-                .back(3)
-                .turn(Math.toRadians(33.8))
-                .strafeRight(10)
-                .build();
+           .turn(Math.toRadians(-60))
+           .back(5)
+           .waitSeconds(.5)
+           .forward(5)
+           .turn(Math.toRadians(60))
+           .waitSeconds(.5)
+
+           .turn(Math.toRadians(-60))
+           .back(5)
+           .waitSeconds(.5)
+           .forward(5)
+           .turn(Math.toRadians(60))
+           .waitSeconds(.5)
+
+           .turn(Math.toRadians(-60))
+           .back(5)
+           .waitSeconds(.5)
+           .forward(5)
+           .turn(Math.toRadians(60))
+           .waitSeconds(.5)
+
+           .turn(Math.toRadians(-60))
+           .back(5)
+           .waitSeconds(.5)
+           .forward(5)
+           .turn(Math.toRadians(60))
+           .waitSeconds(.5)
+
+           .turn(Math.toRadians(-60))
+           .back(5)
+           .waitSeconds(.5)
+           .forward(5)
+           .turn(Math.toRadians(60))
+           .waitSeconds(.5)
+            .build();
+
 
 //        TrajectorySequence oblique2 = drivetrain.trajectorySequenceBuilder(oblique1.end())
 //                .turn(Math.toRadians(-33.8))
 //                .strafeRight(5)
 //                .build();
+
+        TrajectorySequence park1 = drivetrain.trajectorySequenceBuilder(oblique1.end())
+                .forward(4)
+                .turn(Math.toRadians(90))
+                .forward(50)
+                .build();
 
 
 
@@ -68,6 +100,8 @@ public class Blue1Auto extends LinearOpMode {
         drivetrain.followTrajectory(forward);
         drivetrain.followTrajectorySequence(strafeleft);
         drivetrain.followTrajectorySequence(oblique1);
+        drivetrain.followTrajectorySequence(park1);
+
 
 //
 
