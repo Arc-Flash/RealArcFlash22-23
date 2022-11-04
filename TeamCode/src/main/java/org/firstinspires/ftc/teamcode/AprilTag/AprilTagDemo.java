@@ -55,7 +55,9 @@ public class AprilTagDemo extends LinearOpMode
             public void onOpened()
             {
                 camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+                FtcDashboard.getInstance().startCameraStream(camera, 30);
             }
+
 
             @Override
             public void onError(int errorCode)
