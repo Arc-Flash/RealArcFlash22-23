@@ -101,8 +101,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
             V4bServo1.setPosition(0.75);
             V4bServo2.setPosition(0.75);
         } else if(gamepad1.a) {
-            V4bServo1.setPosition(0);
-            V4bServo2.setPosition(0);
+            V4bServo1.setPosition(0.25);
+            V4bServo2.setPosition(0.25);
         }
         if(gamepad1.b){
             V4bServo1.setPosition(0);
