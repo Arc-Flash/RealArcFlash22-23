@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
-//import com.outoftheboxrobotics.photoncore.PhotonCore;
+import com.outoftheboxrobotics.photoncore.PhotonCore;
 
 
 @TeleOp(name = "Field Relative")
@@ -17,15 +17,15 @@ public class FieldRelativeTeleop extends LinearOpMode {
     private DcMotor frontLeft;
     private DcMotor backLeft;
     private DcMotor frontRight;
-      private DcMotor backRight;
+    private DcMotor backRight;
 //    private CRServo testServo1;
 //    private CRServo testServo2;
     private Servo V4bServo1;
     private Servo V4bServo2;
 
-    double clawOffset = 0;
-    double clawSpeed = 0.2;
-    double clawStartPosition = 0.5;
+    //double clawOffset = 0;
+    //double clawSpeed = 0.2;
+    //double clawStartPosition = 0.5;
 
     private BNO055IMU imu;
 
@@ -36,6 +36,7 @@ public class FieldRelativeTeleop extends LinearOpMode {
     //the front of the robot away from them (i.e. the front of the robot is facing your opponents) and then press x.
     @Override
     public void runOpMode(){
+        PhotonCore.enable();
         //@TODO Check hardware mappings
         frontLeft = hardwareMap.get(DcMotor.class,"leftFront");
         backLeft = hardwareMap.get(DcMotor.class,"leftRear");
@@ -66,8 +67,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
 
-        V4bServo1.setPosition(clawStartPosition);
-        V4bServo2.setPosition(clawStartPosition);
+        //V4bServo1.setPosition(clawStartPosition);
+        //V4bServo2.setPosition(clawStartPosition);
     }
     public void drivetrain() {
         //x will calibrate field relative
@@ -103,6 +104,10 @@ public class FieldRelativeTeleop extends LinearOpMode {
             V4bServo1.setPosition(0.25);
             V4bServo2.setPosition(0.25);
         }
+        if(gamepad1.b){
+            V4bServo1.setPosition(0);
+            V4bServo2.setPosition(0);
+        }
 
 
 //        clawOffset = Range.clip(clawOffset,-0.5,0.5);
@@ -126,6 +131,7 @@ public class FieldRelativeTeleop extends LinearOpMode {
         telemetry.addData("Rear Right Power: ", rightBackPower);
         telemetry.addData("V4bServo 1 Position: ", V4bServo1.getPosition());
         telemetry.addData("V4bServo 2 Position: ", V4bServo2.getPosition());
+        telemetry.update();
 //        telemetry.addData("Servo 1 Power: ",testServo1Power);
 //        telemetry.addData("Servo 2 Power: ",testServo2Power);
 
