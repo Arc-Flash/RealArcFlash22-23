@@ -24,8 +24,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
     private DcMotor backLeft;
     private DcMotor frontRight;
     private DcMotor backRight;
-    private CRServo intake1;
-    private CRServo intake2;
+//    private CRServo intake1;
+//    private CRServo intake2;
     private Servo V4bServo1;
     private Servo V4bServo2;
     private DcMotorEx liftmotor1;
@@ -33,10 +33,10 @@ public class FieldRelativeTeleop extends LinearOpMode {
 
     private PIDController controller;
 
-    public static double p = 0, i = 0, d = 0;
+    public static double p = 0.01, i = 0.01, d = 0;
     public static double f = 0;
 
-    public static int target = 0;
+    public static int target = 10000;
 
     private final double ticks_in_degree = 700/180.0;
 
@@ -61,8 +61,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
         backLeft = hardwareMap.get(DcMotor.class,"leftRear");
         frontRight = hardwareMap.get(DcMotor.class,"rightFront");
         backRight = hardwareMap.get(DcMotor.class,"rightRear");
-        intake1 = hardwareMap.get(CRServo.class,"intake1");
-        intake2 = hardwareMap.get(CRServo.class,"intake1");
+//        intake1 = hardwareMap.get(CRServo.class,"intake1");
+//        intake2 = hardwareMap.get(CRServo.class,"intake1");
         V4bServo1 = hardwareMap.get(Servo.class,"V4bServo1");
         V4bServo2 = hardwareMap.get(Servo.class,"V4bServo2");
 
@@ -78,6 +78,7 @@ public class FieldRelativeTeleop extends LinearOpMode {
         //since this is mecanum
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftmotor1.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
 
@@ -102,12 +103,12 @@ public class FieldRelativeTeleop extends LinearOpMode {
         controller.setPID(p, i, d);
         int liftPos = liftmotor1.getCurrentPosition();
         double pid = controller.calculate(liftPos, target);
-        double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
+        double ff = Math.cos(Math.toRadians(target+100 / ticks_in_degree)) * f;
 
         double power = pid + ff;
 
-        liftmotor1.setPower(power);
-        liftmotor2.setPower(power);
+//        liftmotor1.setPower(power);
+//        liftmotor2.setPower(power);
 
         telemetry.addData("pos ", liftPos);
         telemetry.addData("target ", target);
@@ -149,17 +150,19 @@ public class FieldRelativeTeleop extends LinearOpMode {
             V4bServo1.setPosition(0);
             V4bServo2.setPosition(0);
         }
-        if(gamepad2.dpad_up){
-            liftmotor1.setTargetPosition(1000);
-            liftmotor2.setTargetPosition(1000);
+        if(gamepad1.dpad_up){
+            liftmotor1.setTargetPosition(target);
+            liftmotor2.setTargetPosition(target);
+            liftmotor1.setPower(power);
+            liftmotor2.setPower(power);
         }
-        if (gamepad1.a){
-            intake2.setPower(0.5);
-            intake1.setPower(0.5);
-        } else if (gamepad1.b){
-            intake2.setPower(0);
-            intake1.setPower(0);
-        }
+//        if (gamepad1.a){
+//            intake2.setPower(0.5);
+//            intake1.setPower(0.5);
+//        } else if (gamepad1.b){
+//            intake2.setPower(0);
+//            intake1.setPower(0);
+//        }
 
         //setting powers correctly
         frontLeft.setPower(leftFrontPower * speedModifier);
@@ -178,7 +181,7 @@ public class FieldRelativeTeleop extends LinearOpMode {
         telemetry.addData("V4bServo 2 Position: ", V4bServo2.getPosition());
         telemetry.addData("liftmotor1position: ", liftmotor1.getTargetPosition());
         telemetry.addData("liftmotor2position, Davi Hates Code: ", liftmotor2.getTargetPosition());
-        telemetry.addData("Intake Tings: ", intake1.getDirection());
+//        telemetry.addData("Intake Tings: ", intake1.getDirection());
         telemetry.update();
 
 
