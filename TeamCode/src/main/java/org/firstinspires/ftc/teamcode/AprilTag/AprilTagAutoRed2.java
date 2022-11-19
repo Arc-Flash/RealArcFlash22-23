@@ -140,7 +140,7 @@ public class AprilTagAutoRed2 extends LinearOpMode {
                 if (tag1Found) {
                     waitForStart();
                     drivetrain.followTrajectorySequence(Red2Signal1);
-
+                    drivetrain.followTrajectory(Park3);
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     tagToTelemetry(tagOfInterest);
                 } else if (tag2Found) {
@@ -150,7 +150,7 @@ public class AprilTagAutoRed2 extends LinearOpMode {
                 } else if (tag3Found) {
                     waitForStart();
                     drivetrain.followTrajectorySequence(Red2Signal1);
-                    drivetrain.followTrajectory(Park3);
+
                 }
 
             } else {
