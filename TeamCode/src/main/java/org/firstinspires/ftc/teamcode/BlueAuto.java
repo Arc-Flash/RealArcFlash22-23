@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(group = "drive")
-public class Blue1Auto extends LinearOpMode {
+public class BlueAuto extends LinearOpMode {
     @Override
     public void runOpMode(){
         PhotonCore.enable();
