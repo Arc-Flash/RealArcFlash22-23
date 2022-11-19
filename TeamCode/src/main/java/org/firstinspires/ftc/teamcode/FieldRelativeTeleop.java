@@ -156,6 +156,12 @@ public class FieldRelativeTeleop extends LinearOpMode {
             liftmotor1.setPower(power);
             liftmotor2.setPower(power);
         }
+        if(gamepad1.dpad_down){
+            liftmotor1.setTargetPosition(0);
+            liftmotor2.setTargetPosition(0);
+            liftmotor1.setPower(power);
+            liftmotor2.setPower(power);
+        }
 //        if (gamepad1.a){
 //            intake2.setPower(0.5);
 //            intake1.setPower(0.5);
