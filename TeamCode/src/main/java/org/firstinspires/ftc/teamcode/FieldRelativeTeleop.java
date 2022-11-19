@@ -1,70 +1,61 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.outoftheboxrobotics.photoncore.PhotonCore;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
-import com.outoftheboxrobotics.photoncore.PhotonCore;
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.controller.PIDController;
 
 
 @TeleOp(name = "Field Relative")
 public class FieldRelativeTeleop extends LinearOpMode {
 
+    public static double p = 0.01, i = 0.01, d = 0;
+    public static double f = 0;
+    public static int target = 10000;
+    private final double ticks_in_degree = 700 / 180.0;
+    double speedModifier = 0.8; //@TODO If your drivers complain that the robot is too fast fix this :)
+    double robotAngle = 0; //For Field Relative
+    double angleZeroValue = org.firstinspires.ftc.teamcode.StaticField.autonHeading;  //gets value from auton. if auton fails for some reason the
     private DcMotor frontLeft;
     private DcMotor backLeft;
     private DcMotor frontRight;
     private DcMotor backRight;
-//    private CRServo intake1;
+    //    private CRServo intake1;
 //    private CRServo intake2;
     private Servo V4bServo1;
     private Servo V4bServo2;
-    private DcMotorEx liftmotor1;
-    private DcMotorEx liftmotor2;
-
-    private PIDController controller;
-
-    public static double p = 0.01, i = 0.01, d = 0;
-    public static double f = 0;
-
-    public static int target = 10000;
-
-    private final double ticks_in_degree = 700/180.0;
 
     //double clawOffset = 0;
     //double clawSpeed = 0.2;
     //double clawStartPosition = 0.5;
-
+    private DcMotorEx liftmotor1;
+    private DcMotorEx liftmotor2;
+    private PIDController controller;
     private BNO055IMU imu;
 
-    double speedModifier = 0.8; //@TODO If your drivers complain that the robot is too fast fix this :)
-    double robotAngle = 0; //For Field Relative
-    double angleZeroValue = org.firstinspires.ftc.teamcode.StaticField.autonHeading;  //gets value from auton. if auton fails for some reason the
     //default angle is 0 degrees. Remember that your drivers should recalibrate if this happens by facing
     //the front of the robot away from them (i.e. the front of the robot is facing your opponents) and then press x.
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
         telemetry.addLine("Davi's code suprisingly worked");
         telemetry.update();
         PhotonCore.enable();
         //@TODO Check hardware mappings
-        frontLeft = hardwareMap.get(DcMotor.class,"leftFront");
-        backLeft = hardwareMap.get(DcMotor.class,"leftRear");
-        frontRight = hardwareMap.get(DcMotor.class,"rightFront");
-        backRight = hardwareMap.get(DcMotor.class,"rightRear");
+        frontLeft = hardwareMap.get(DcMotor.class, "leftFront");
+        backLeft = hardwareMap.get(DcMotor.class, "leftRear");
+        frontRight = hardwareMap.get(DcMotor.class, "rightFront");
+        backRight = hardwareMap.get(DcMotor.class, "rightRear");
 //        intake1 = hardwareMap.get(CRServo.class,"intake1");
 //        intake2 = hardwareMap.get(CRServo.class,"intake1");
-        V4bServo1 = hardwareMap.get(Servo.class,"V4bServo1");
-        V4bServo2 = hardwareMap.get(Servo.class,"V4bServo2");
+        V4bServo1 = hardwareMap.get(Servo.class, "V4bServo1");
+        V4bServo2 = hardwareMap.get(Servo.class, "V4bServo2");
 
         //PID stuff follows
         controller = new PIDController(p, i, d);
@@ -82,7 +73,7 @@ public class FieldRelativeTeleop extends LinearOpMode {
 
         waitForStart();
 
-        while(opModeIsActive()){
+        while (opModeIsActive()) {
             drivetrain();
         }
 
@@ -90,7 +81,7 @@ public class FieldRelativeTeleop extends LinearOpMode {
     }
 
 
-    public void initIMU(){
+    public void initIMU() {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
@@ -98,12 +89,13 @@ public class FieldRelativeTeleop extends LinearOpMode {
         //V4bServo1.setPosition(clawStartPosition);
         //V4bServo2.setPosition(clawStartPosition);
     }
+
     public void drivetrain() {
 
         controller.setPID(p, i, d);
         int liftPos = liftmotor1.getCurrentPosition();
         double pid = controller.calculate(liftPos, target);
-        double ff = Math.cos(Math.toRadians(target+100 / ticks_in_degree)) * f;
+        double ff = Math.cos(Math.toRadians(target + 100 / ticks_in_degree)) * f;
 
         double power = pid + ff;
 
@@ -140,23 +132,23 @@ public class FieldRelativeTeleop extends LinearOpMode {
 //        speedModifier = .8 + (.8 * gamepad1.right_trigger) - (.4 * gamepad1.left_trigger);
 //        Our drivers are video game players so this is why we added this ^
 //        No Davi, We are NOT Having a Speed Boost!!!!
-        if(gamepad2.y){ //v4b servo stuf and lift maybe?
+        if (gamepad2.y) { //v4b servo stuf and lift maybe?
             V4bServo1.setPosition(0.75);
             V4bServo2.setPosition(0.75);
-        } else if(gamepad2.a) {
+        } else if (gamepad2.a) {
             V4bServo1.setPosition(0.25);
             V4bServo2.setPosition(0.25);
-        } else if(gamepad2.b){
+        } else if (gamepad2.b) {
             V4bServo1.setPosition(0);
             V4bServo2.setPosition(0);
         }
-        if(gamepad1.dpad_up){
+        if (gamepad1.dpad_up) {
             liftmotor1.setTargetPosition(target);
             liftmotor2.setTargetPosition(target);
             liftmotor1.setPower(power);
             liftmotor2.setPower(power);
         }
-        if(gamepad1.dpad_down){
+        if (gamepad1.dpad_down) {
             liftmotor1.setTargetPosition(0);
             liftmotor2.setTargetPosition(0);
             liftmotor1.setPower(power);
@@ -177,7 +169,6 @@ public class FieldRelativeTeleop extends LinearOpMode {
         backRight.setPower(rightBackPower * speedModifier);
 
 
-
         telemetry.addData("Robot Angle: ", robotAngle); //this is all telemetry stuff
         telemetry.addData("Front Left Power: ", leftFrontPower);
         telemetry.addData("Front Right Power: ", rightFrontPower);
@@ -191,13 +182,12 @@ public class FieldRelativeTeleop extends LinearOpMode {
         telemetry.update();
 
 
-
     }
+
     public double getRawExternalHeading() {
         //gives us the robot angle
         return imu.getAngularOrientation().firstAngle;
     }
-
 
 
 }
