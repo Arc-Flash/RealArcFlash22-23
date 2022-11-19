@@ -49,20 +49,6 @@ public class Blue1Auto extends LinearOpMode {
                 .strafeRight(10)
                 .build();
 
-//        TrajectorySequence oblique2 = drivetrain.trajectorySequenceBuilder(oblique1.end())
-//                .turn(Math.toRadians(-33.8))
-//                .strafeRight(5)
-//                .build();
-
-
-
-
-
-
-
-
-
-
 
         drivetrain.followTrajectory(strafeRight);
         drivetrain.followTrajectory(forward);

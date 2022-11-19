@@ -58,9 +58,11 @@ public class MeepTesting {
                                 .turn(Math.toRadians(60))
                                 .waitSeconds(.5)
 
-                                .forward(4)
-                                .turn(Math.toRadians(90))
-                                .forward(50)
+                                .back(42)
+
+//                                .forward(4)
+//                                .turn(Math.toRadians(90))
+//                                .forward(50)
 
 
                                 .build()
