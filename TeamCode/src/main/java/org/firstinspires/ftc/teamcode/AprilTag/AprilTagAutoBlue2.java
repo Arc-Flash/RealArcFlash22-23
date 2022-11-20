@@ -32,9 +32,9 @@ public class AprilTagAutoBlue2 extends LinearOpMode {
     // UNITS ARE METERS
     double tagsize = 0.166;
 
-    int ID_TAG_OF_INTEREST = 18; // Tag ID 18 from the 36h11 family
-    int ID_TAG_OF_INTEREST_2 = 19;
-    int ID_TAG_OF_INTEREST_3 = 20;
+    int ID_TAG_OF_INTEREST = 17; // Tag ID 17 from the 36h11 family
+    int ID_TAG_OF_INTEREST_2 = 18;
+    int ID_TAG_OF_INTEREST_3 = 19;
     AprilTagDetection tagOfInterest = null;
     SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
 
@@ -134,6 +134,7 @@ public class AprilTagAutoBlue2 extends LinearOpMode {
                     drivetrain.followTrajectory(Park3);
 
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                    telemetry.addLine("Anikets code is cracked and this is Davi's pat on back");
                     tagToTelemetry(tagOfInterest);
                 } else if (tag2Found) {
                     waitForStart();

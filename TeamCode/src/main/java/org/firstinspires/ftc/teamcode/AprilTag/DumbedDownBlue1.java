@@ -15,8 +15,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous (name = "Blue1Auto")
-public class AprilTagAutoBlue1 extends LinearOpMode {
+@Autonomous (name = "Blue1_1+3")
+public class DumbedDownBlue1 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -30,7 +30,7 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
     double cy = 221.506;
 
     // UNITS ARE METERS
-    double tagsize = 0.166;
+    double tagsize = 0.166; //change when we will need it smaller
 
     int ID_TAG_OF_INTEREST = 17; // Tag ID 17 from the 36h11 family
     int ID_TAG_OF_INTEREST_2 = 18;
@@ -43,13 +43,6 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
             .forward(48)
             .strafeLeft(43)
             .turn(Math.toRadians(90))
-            .waitSeconds(.5)
-
-            .turn(Math.toRadians(120))
-            .forward(5)
-            .waitSeconds(.5)
-            .back(5)
-            .turn(Math.toRadians(-120))
             .waitSeconds(.5)
 
             .turn(Math.toRadians(120))
