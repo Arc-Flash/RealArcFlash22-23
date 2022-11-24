@@ -29,7 +29,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous (name = "Blue2Auto")
+@Autonomous (name = "Blue+Red2Auto")
 public class AprilTagAutoBlue2 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera camera;
