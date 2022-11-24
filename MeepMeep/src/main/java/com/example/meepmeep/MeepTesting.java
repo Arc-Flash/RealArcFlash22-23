@@ -24,13 +24,25 @@ public class MeepTesting {
                                         .turn(Math.toRadians(120))
                                         .forward(5)
                                         .waitSeconds(.5)
+                                        .addDisplacementMarker(1, () -> {
+                                            // This marker runs 1 inches into the trajectory
+
+                                            // Run your action in here!
+
+
+
+                                        })
                                         .back(5)
                                         .turn(Math.toRadians(-120))
                                         .waitSeconds(.5)
 
                                         .turn(Math.toRadians(120))
                                         .forward(5)
-                                        .waitSeconds(.5)
+                                        .addDisplacementMarker(() -> {
+                                            // This marker runs after the first splineTo()
+
+                                            // Run your action in here!
+                                        })
                                         .back(5)
                                         .turn(Math.toRadians(-120))
                                         .waitSeconds(.5)

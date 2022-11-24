@@ -1,11 +1,23 @@
 package org.firstinspires.ftc.teamcode.AprilTag;
 
+import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.d;
+import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.f;
+import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.i;
+import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.p;
+import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.target;
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.PIDF_DR4B;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.apriltag.AprilTagDetection;
@@ -37,6 +49,21 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
     int ID_TAG_OF_INTEREST_3 = 19;
     AprilTagDetection tagOfInterest = null;
     SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
+    private DcMotorEx liftmotor1;
+    private DcMotorEx liftmotor2;
+    private PIDController controller;
+    public static int target = 0;
+    private Servo Drew;
+    private Servo Claw;
+
+    private final double ticks_in_degree = 700/180.0;
+
+
+    int liftPos = liftmotor1.getCurrentPosition();
+    double pid = controller.calculate(liftPos, target);
+    double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
+
+    double power = pid + ff;
 
 
     TrajectorySequence Blue1Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(38, 60, Math.toRadians(-90))) .strafeRight(26)
@@ -45,34 +72,98 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
             .turn(Math.toRadians(90))
             .waitSeconds(.5)
 
+            //space
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(0);
+            })
             .turn(Math.toRadians(120))
             .forward(5)
-            .waitSeconds(.5)
+            .addDisplacementMarker(1, () -> {
+                target = 2000;
+            })
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(75);
+            })
             .back(5)
+            .addDisplacementMarker(1, () -> {
+                target = 0;
+            })
             .turn(Math.toRadians(-120))
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(0);
+            })
             .waitSeconds(.5)
 
+
+            //space
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(0);
+            })
             .turn(Math.toRadians(120))
             .forward(5)
-            .waitSeconds(.5)
+            .addDisplacementMarker(1, () -> {
+                target = 2000;
+            })
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(75);
+            })
             .back(5)
+            .addDisplacementMarker(1, () -> {
+                target = 0;
+            })
             .turn(Math.toRadians(-120))
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(0);
+            })
             .waitSeconds(.5)
 
+
+            //space
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(0);
+            })
             .turn(Math.toRadians(120))
             .forward(5)
-            .waitSeconds(.5)
+            .addDisplacementMarker(1, () -> {
+                target = 2000;
+            })
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(75);
+            })
             .back(5)
+            .addDisplacementMarker(1, () -> {
+                target = 0;
+            })
             .turn(Math.toRadians(-120))
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(0);
+            })
             .waitSeconds(.5)
 
+
+            //space
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(0);
+            })
             .turn(Math.toRadians(120))
             .forward(5)
-            .waitSeconds(.5)
+            .addDisplacementMarker(1, () -> {
+                target = 2000;
+            })
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(75);
+            })
             .back(5)
+            .addDisplacementMarker(1, () -> {
+                target = 0;
+            })
             .turn(Math.toRadians(-120))
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(0);
+            })
             .waitSeconds(.5)
 
+            //space
 
             .build();
 
@@ -81,6 +172,23 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
+        controller = new PIDController(p, i, d);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        liftmotor1 = hardwareMap.get(DcMotorEx.class, "lift_motor");
+        liftmotor2 = hardwareMap.get(DcMotorEx.class, "liftmotor2");
+        Drew = hardwareMap.get(Servo.class, "ClawAim");
+        Claw = hardwareMap.get(Servo.class, "Claw");
+
+
+
+
+
+        telemetry.addData("pos ", liftPos);
+        telemetry.addData("target ", target);
+        telemetry.addData("DrewPos", Drew.getPosition());
+        telemetry.update();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -108,6 +216,17 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
         while (!isStarted() && !isStopRequested()) {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
+
+            liftPos = liftmotor1.getCurrentPosition();
+            pid = controller.calculate(liftPos, target);
+            ff = Math.cos(Math.toRadians(target + 100 / ticks_in_degree)) * f;
+            liftmotor1.setPower(pid + ff);
+
+            liftPos = liftmotor2.getCurrentPosition();
+            pid = controller.calculate(liftPos, target);
+            ff = Math.cos(Math.toRadians(target + 100 / ticks_in_degree)) * f;
+            liftmotor2.setPower(pid + ff);
+
             if (currentDetections.size() != 0) {
                 boolean tag1Found = false;
                 boolean tag2Found = false;
@@ -131,6 +250,7 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
 
                 if (tag1Found) {
                     waitForStart();
+                    Drew.setPosition(90);
                     drivetrain.followTrajectorySequence(Blue1Signal1);
 
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
@@ -138,13 +258,20 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
                     tagToTelemetry(tagOfInterest);
                 } else if (tag2Found) {
                     waitForStart();
+                    Drew.setPosition(90);
                     drivetrain.followTrajectorySequence(Blue1Signal1);
                     drivetrain.followTrajectory(Park2);
                 } else if (tag3Found) {
                     waitForStart();
+                    Drew.setPosition(90);
                     drivetrain.followTrajectorySequence(Blue1Signal1);
                     drivetrain.followTrajectory(Park3);
                 }
+
+                telemetry.addData("pos ", liftPos);
+                telemetry.addData("target ", target);
+                telemetry.addData("DrewPos", Drew.getPosition());
+                telemetry.update();
 
             } else {
                 telemetry.addLine("Don't see tag of interest :(");
@@ -200,9 +327,9 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
 
 
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-        while (opModeIsActive()) {
-            sleep(20);
-        }
+        //while (opModeIsActive()) {
+            //sleep(20);
+        //}
     }
 
     void tagToTelemetry(AprilTagDetection detection) {

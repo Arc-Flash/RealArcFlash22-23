@@ -29,8 +29,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
     private DcMotor backRight;
     //    private CRServo intake1;
 //    private CRServo intake2;
-    private Servo V4bServo1;
-    private Servo V4bServo2;
+    //private Servo V4bServo1;
+    //private Servo V4bServo2;
 
     //double clawOffset = 0;
     //double clawSpeed = 0.2;
@@ -54,8 +54,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
         backRight = hardwareMap.get(DcMotor.class, "rightRear");
 //        intake1 = hardwareMap.get(CRServo.class,"intake1");
 //        intake2 = hardwareMap.get(CRServo.class,"intake1");
-        V4bServo1 = hardwareMap.get(Servo.class, "V4bServo1");
-        V4bServo2 = hardwareMap.get(Servo.class, "V4bServo2");
+        //V4bServo1 = hardwareMap.get(Servo.class, "V4bServo1");
+        //V4bServo2 = hardwareMap.get(Servo.class, "V4bServo2");
 
         //PID stuff follows
         controller = new PIDController(p, i, d);
@@ -129,18 +129,20 @@ public class FieldRelativeTeleop extends LinearOpMode {
 //        double testServo2Power = speed;
 
 
+
+
 //        speedModifier = .8 + (.8 * gamepad1.right_trigger) - (.4 * gamepad1.left_trigger);
 //        Our drivers are video game players so this is why we added this ^
 //        No Davi, We are NOT Having a Speed Boost!!!!
         if (gamepad2.y) { //v4b servo stuf and lift maybe?
-            V4bServo1.setPosition(0.75);
-            V4bServo2.setPosition(0.75);
-        } else if (gamepad2.a) {
-            V4bServo1.setPosition(0.25);
-            V4bServo2.setPosition(0.25);
-        } else if (gamepad2.b) {
-            V4bServo1.setPosition(0);
-            V4bServo2.setPosition(0);
+//            V4bServo1.setPosition(0.75);
+//            V4bServo2.setPosition(0.75);
+//        } else if (gamepad2.a) {
+//            V4bServo1.setPosition(0.25);
+//            V4bServo2.setPosition(0.25);
+//        } else if (gamepad2.b) {
+//            V4bServo1.setPosition(0);
+//            V4bServo2.setPosition(0);
         }
         if (gamepad1.dpad_up) {
             liftmotor1.setTargetPosition(target);
@@ -174,8 +176,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
         telemetry.addData("Front Right Power: ", rightFrontPower);
         telemetry.addData("Rear Left Power: ", leftBackPower);
         telemetry.addData("Rear Right Power: ", rightBackPower);
-        telemetry.addData("V4bServo 1 Position: ", V4bServo1.getPosition());
-        telemetry.addData("V4bServo 2 Position: ", V4bServo2.getPosition());
+        //telemetry.addData("V4bServo 1 Position: ", V4bServo1.getPosition());
+        //telemetry.addData("V4bServo 2 Position: ", V4bServo2.getPosition());
         telemetry.addData("liftmotor1position: ", liftmotor1.getTargetPosition());
         telemetry.addData("liftmotor2position, Davi Hates Code: ", liftmotor2.getTargetPosition());
 //        telemetry.addData("Intake Tings: ", intake1.getDirection());
