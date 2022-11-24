@@ -1,3 +1,20 @@
+//Need to change!!!!!!!!!!!!!!!!!!!!
+//This will end up as the preload and park auto only!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 package org.firstinspires.ftc.teamcode.AprilTag;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -39,7 +56,7 @@ public class AprilTagAutoRed2 extends LinearOpMode {
     SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
 
 
-    TrajectorySequence Red2Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(38, -60, Math.toRadians(90))).strafeRight(26)
+    TrajectorySequence Red2Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(38, -60, Math.toRadians(90))).strafeLeft(26)
             .strafeRight(-26)
             .forward(48)
             .strafeRight(43)
