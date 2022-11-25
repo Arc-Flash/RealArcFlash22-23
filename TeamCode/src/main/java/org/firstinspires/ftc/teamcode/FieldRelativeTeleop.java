@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 @TeleOp(name = "Field Relative")
@@ -31,6 +32,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
     private DcMotorEx liftmotor2;
     private PIDController controller;
     private BNO055IMU imu;
+    private Servo Drew;
+    private Servo Claw;
 
     //default angle is 0 degrees. Remember that your drivers should recalibrate if this happens by facing
     //the front of the robot away from them (i.e. the front of the robot is facing your opponents) and then press x.
@@ -44,6 +47,8 @@ public class FieldRelativeTeleop extends LinearOpMode {
         backLeft = hardwareMap.get(DcMotor.class, "leftRear");
         frontRight = hardwareMap.get(DcMotor.class, "rightFront");
         backRight = hardwareMap.get(DcMotor.class, "rightRear");
+        Drew = hardwareMap.get(Servo.class, "ClawAim");
+        Claw = hardwareMap.get(Servo.class, "Claw");
 //
 
         //PID stuff follows
@@ -140,6 +145,15 @@ public class FieldRelativeTeleop extends LinearOpMode {
             liftmotor2.setTargetPosition(0);
             liftmotor1.setPower(power);
             liftmotor2.setPower(power);
+        }
+        if (gamepad1.a) {
+            Claw.setPosition(75);
+        }
+        if (gamepad1.b) {
+            Claw.setPosition(0);
+        }
+        if (gamepad2.y) {
+            Claw.setPosition(90);
         }
 //
 
