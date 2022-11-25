@@ -69,7 +69,7 @@ public class AprilTagAutoPark2 extends LinearOpMode {
             .forward(2)
             .addDisplacementMarker(() -> Claw.setPosition(0))
             .addDisplacementMarker(1, () -> {
-                target = 2000;
+                target = 1000;
             })
             .addDisplacementMarker(() -> {
                 Claw.setPosition(75);
