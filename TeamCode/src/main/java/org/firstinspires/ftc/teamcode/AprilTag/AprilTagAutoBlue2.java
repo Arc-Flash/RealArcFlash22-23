@@ -70,9 +70,18 @@ public class AprilTagAutoBlue2 extends LinearOpMode {
 
     TrajectorySequence Blue2Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(-38, 60, Math.toRadians(-90))).strafeLeft(26)
             .forward(28)
+            .addDisplacementMarker(1, () -> {
+                target = 5000;
+            })
             .turn(Math.toRadians(-45))
             .forward(2)
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(75);
+            })
             .back(2)
+            .addDisplacementMarker(1, () -> {
+                target = 0;
+            })
             .turn(Math.toRadians(45))
             .forward(20)
             .strafeRight(43)

@@ -66,7 +66,6 @@ public class AprilTagAutoPark1 extends LinearOpMode {
             .forward(28)
             .turn(Math.toRadians(45))
             .forward(2)
-            .addDisplacementMarker(() -> Claw.setPosition(0))
             .addDisplacementMarker(1, () -> {
                 target = 5000;
             })
