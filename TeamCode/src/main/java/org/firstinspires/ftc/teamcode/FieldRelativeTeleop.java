@@ -150,7 +150,7 @@ public class FieldRelativeTeleop extends LinearOpMode {
         telemetry.addData("Rear Right Power: ", rightBackPower);
         telemetry.addData("liftmotor1position: ", liftmotor1.getTargetPosition());
         telemetry.addData("liftmotor2position, Davi Hates Code: ", liftmotor2.getTargetPosition());
-/
+
         telemetry.update();
 
 
