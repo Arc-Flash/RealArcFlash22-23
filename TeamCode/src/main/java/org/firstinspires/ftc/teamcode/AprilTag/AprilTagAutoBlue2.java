@@ -29,7 +29,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous (name = "Blue2Auto")
+@Autonomous (name = "Blue+Red2Auto")
 public class AprilTagAutoBlue2 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera camera;
@@ -81,7 +81,7 @@ public class AprilTagAutoBlue2 extends LinearOpMode {
             .turn(Math.toRadians(-120))
             .forward(5)
             .addDisplacementMarker(1, () -> {
-                target = 2000;
+                target = 1000;
             })
             .addDisplacementMarker(() -> {
                 Claw.setPosition(75);
@@ -104,7 +104,7 @@ public class AprilTagAutoBlue2 extends LinearOpMode {
             .turn(Math.toRadians(-120))
             .forward(5)
             .addDisplacementMarker(1, () -> {
-                target = 2000;
+                target = 1000;
             })
             .addDisplacementMarker(() -> {
                 Claw.setPosition(75);
@@ -127,7 +127,7 @@ public class AprilTagAutoBlue2 extends LinearOpMode {
             .turn(Math.toRadians(-120))
             .forward(5)
             .addDisplacementMarker(1, () -> {
-                target = 2000;
+                target = 1000;
             })
             .addDisplacementMarker(() -> {
                 Claw.setPosition(75);
@@ -150,7 +150,7 @@ public class AprilTagAutoBlue2 extends LinearOpMode {
             .turn(Math.toRadians(-120))
             .forward(5)
             .addDisplacementMarker(1, () -> {
-                target = 2000;
+                target = 1000;
             })
             .addDisplacementMarker(() -> {
                 Claw.setPosition(75);
@@ -173,7 +173,7 @@ public class AprilTagAutoBlue2 extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        controller = new PIDController(p, i, d);
+        controller = new PIDController(0.01, 0.01, d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         liftmotor1 = hardwareMap.get(DcMotorEx.class, "lift_motor");
