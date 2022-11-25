@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
 
 @TeleOp(name = "Field Relative")
@@ -89,7 +88,6 @@ public class FieldRelativeTeleop extends LinearOpMode {
         double power = pid + ff;
 
 
-
         telemetry.addData("pos ", liftPos);
         telemetry.addData("target ", target);
         telemetry.update();
@@ -113,9 +111,6 @@ public class FieldRelativeTeleop extends LinearOpMode {
         double rightFrontPower = speed * Math.sin(LeftStickAngle - robotAngle) - rightX;
         double leftBackPower = speed * Math.sin(LeftStickAngle - robotAngle) + rightX;
         double rightBackPower = speed * Math.cos(LeftStickAngle - robotAngle) - rightX;
-
-
-
 
 
 //        speedModifier = .8 + (.8 * gamepad1.right_trigger) - (.4 * gamepad1.left_trigger);
