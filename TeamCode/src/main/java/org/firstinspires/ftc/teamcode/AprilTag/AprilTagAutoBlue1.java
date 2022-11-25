@@ -84,7 +84,7 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
             .turn(Math.toRadians(120))
             .forward(5)
             .addDisplacementMarker(1, () -> {
-                target = 10000;
+                target = 5000;
             })
             .addDisplacementMarker(() -> {
                 Claw.setPosition(75);
@@ -107,7 +107,7 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
             .turn(Math.toRadians(120))
             .forward(5)
             .addDisplacementMarker(1, () -> {
-                target = 10000;
+                target = 2500;
             })
             .addDisplacementMarker(() -> {
                 Claw.setPosition(75);
@@ -130,7 +130,7 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
             .turn(Math.toRadians(120))
             .forward(5)
             .addDisplacementMarker(1, () -> {
-                target = 10000;
+                target = 2500;
             })
             .addDisplacementMarker(() -> {
                 Claw.setPosition(75);
@@ -153,7 +153,7 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
             .turn(Math.toRadians(120))
             .forward(5)
             .addDisplacementMarker(1, () -> {
-                target = 10000;
+                target = 2500;
             })
             .addDisplacementMarker(() -> {
                 Claw.setPosition(75);
