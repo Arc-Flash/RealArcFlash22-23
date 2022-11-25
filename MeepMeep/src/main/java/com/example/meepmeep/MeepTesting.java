@@ -14,55 +14,18 @@ public class MeepTesting {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(200, 100, Math.toRadians(180), Math.toRadians(180), 13)
                 .followTrajectorySequence(drive ->
-                                drive.trajectorySequenceBuilder(new Pose2d(-38, -60, Math.toRadians(90)))
-                                        .strafeRight(26)
-                                        .forward(48)
-                                        .strafeLeft(43)
-                                        .turn(Math.toRadians(90))
-                                        .waitSeconds(.5)
-
-                                        .turn(Math.toRadians(120))
-                                        .forward(5)
-                                        .waitSeconds(.5)
-                                        .addDisplacementMarker(1, () -> {
-                                            // This marker runs 1 inches into the trajectory
-
-                                            // Run your action in here!
+                                drive.trajectorySequenceBuilder(new Pose2d(38, -60, Math.toRadians(90)))
+                                        .strafeLeft(26)
+                                        .forward(28)
+                                        .turn(Math.toRadians(-45))
+                                        .forward(2)
+                                        .back(2)
+                                        .turn(Math.toRadians(45))
+                                        .forward(20)
+                                        .turn(Math.toRadians(-90))
 
 
 
-                                        })
-                                        .back(5)
-                                        .turn(Math.toRadians(-120))
-                                        .waitSeconds(.5)
-
-                                        .turn(Math.toRadians(120))
-                                        .forward(5)
-                                        .addDisplacementMarker(() -> {
-                                            // This marker runs after the first splineTo()
-
-                                            // Run your action in here!
-                                        })
-                                        .back(5)
-                                        .turn(Math.toRadians(-120))
-                                        .waitSeconds(.5)
-
-                                        .turn(Math.toRadians(120))
-                                        .forward(5)
-                                        .waitSeconds(.5)
-                                        .back(5)
-                                        .turn(Math.toRadians(-120))
-                                        .waitSeconds(.5)
-
-                                        .turn(Math.toRadians(120))
-                                        .forward(5)
-                                        .waitSeconds(.5)
-                                        .back(5)
-                                        .turn(Math.toRadians(-120))
-                                        .waitSeconds(.5)
-
-
-                                        .back(42)
 
 //                                .forward(4)
 //                                .turn(Math.toRadians(90))

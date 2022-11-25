@@ -2,33 +2,22 @@
 //This will end up as the preload and park auto only!!!!!!!!!!!!!!!!!
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 package org.firstinspires.ftc.teamcode.AprilTag;
 
+import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.d;
+import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.f;
+import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.i;
+import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.p;
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -40,10 +29,11 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous (name = "Red1Auto")
-public class AprilTagAutoRed1 extends LinearOpMode {
-
+@Autonomous(name = "Red2Auto")
+public class AprilTagAutoPark2 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
+    public static int target = 0;
+    private final double ticks_in_degree = 700 / 180.0;
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
     // Lens intrinsics
@@ -54,60 +44,66 @@ public class AprilTagAutoRed1 extends LinearOpMode {
     double fy = 578.272;
     double cx = 402.145;
     double cy = 221.506;
-
     // UNITS ARE METERS
     double tagsize = 0.166;
 
-    int ID_TAG_OF_INTEREST = 17; // Tag ID 17 from the 36h11 family
+    int ID_TAG_OF_INTEREST = 17; // Tag ID 18 from the 36h11 family
     int ID_TAG_OF_INTEREST_2 = 18;
     int ID_TAG_OF_INTEREST_3 = 19;
     AprilTagDetection tagOfInterest = null;
     SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
+    double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
+    private DcMotorEx liftmotor1;
+    int liftPos = liftmotor1.getCurrentPosition();
+    private DcMotorEx liftmotor2;
+    private PIDController controller;
+    double pid = controller.calculate(liftPos, target);
+    double power = pid + ff;
+    private Servo Drew;
+    private Servo Claw;
 
 
-    TrajectorySequence Red1Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(-38, -60, Math.toRadians(90))).strafeRight(26)
-            .forward(48)
-            .strafeLeft(43)
-            .turn(Math.toRadians(90))
-            .waitSeconds(.5)
-
-            .turn(Math.toRadians(120))
-            .forward(5)
-            .waitSeconds(.5)
+    TrajectorySequence Red2Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(38, -60, Math.toRadians(90))).strafeLeft(26)
+            .forward(28)
+            .turn(Math.toRadians(-45))
+            .forward(2)
+            .addDisplacementMarker(() -> Claw.setPosition(0))
+            .addDisplacementMarker(1, () -> {
+                target = 2000;
+            })
+            .addDisplacementMarker(() -> {
+                Claw.setPosition(75);
+            })
             .back(5)
-            .turn(Math.toRadians(-120))
-            .waitSeconds(.5)
-
-            .turn(Math.toRadians(120))
-            .forward(5)
-            .waitSeconds(.5)
-            .back(5)
-            .turn(Math.toRadians(-120))
-            .waitSeconds(.5)
-
-            .turn(Math.toRadians(120))
-            .forward(5)
-            .waitSeconds(.5)
-            .back(5)
-            .turn(Math.toRadians(-120))
-            .waitSeconds(.5)
-
-            .turn(Math.toRadians(120))
-            .forward(5)
-            .waitSeconds(.5)
-            .back(5)
-            .turn(Math.toRadians(-120))
-            .waitSeconds(.5)
+            .addDisplacementMarker(1, () -> {
+                target = 0;
+            })
+            .back(2)
+            .turn(Math.toRadians(45))
+            .forward(20)
+            .turn(Math.toRadians(-90))
 
 
             .build();
 
-    Trajectory Park2 = drivetrain.trajectoryBuilder(Red1Signal1.end()).back(20).build();
-    Trajectory Park3 = drivetrain.trajectoryBuilder(Red1Signal1.end()).back(42).build();
+    Trajectory Park2 = drivetrain.trajectoryBuilder(Red2Signal1.end()).forward(20).build();
+    Trajectory Park3 = drivetrain.trajectoryBuilder(Red2Signal1.end()).forward(42).build();
 
     @Override
     public void runOpMode() {
+        controller = new PIDController(p, i, d);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
+        liftmotor1 = hardwareMap.get(DcMotorEx.class, "lift_motor");
+        liftmotor2 = hardwareMap.get(DcMotorEx.class, "liftmotor2");
+        Drew = hardwareMap.get(Servo.class, "ClawAim");
+        Claw = hardwareMap.get(Servo.class, "Claw");
+
+
+        telemetry.addData("pos ", liftPos);
+        telemetry.addData("target ", target);
+        telemetry.addData("DrewPos", Drew.getPosition());
+        telemetry.update();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
@@ -157,19 +153,20 @@ public class AprilTagAutoRed1 extends LinearOpMode {
 
                 if (tag1Found) {
                     waitForStart();
-                    drivetrain.followTrajectorySequence(Red1Signal1);
+                    drivetrain.followTrajectorySequence(Red2Signal1);
 
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     telemetry.addLine("Anikets code is cracked and this is Davi's pat on back");
                     tagToTelemetry(tagOfInterest);
                 } else if (tag2Found) {
                     waitForStart();
-                    drivetrain.followTrajectorySequence(Red1Signal1);
+                    drivetrain.followTrajectorySequence(Red2Signal1);
                     drivetrain.followTrajectory(Park2);
                 } else if (tag3Found) {
                     waitForStart();
-                    drivetrain.followTrajectorySequence(Red1Signal1);
+                    drivetrain.followTrajectorySequence(Red2Signal1);
                     drivetrain.followTrajectory(Park3);
+
                 }
 
             } else {
@@ -240,4 +237,5 @@ public class AprilTagAutoRed1 extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
+
 }
