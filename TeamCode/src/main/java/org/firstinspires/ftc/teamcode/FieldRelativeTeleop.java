@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.outoftheboxrobotics.photoncore.PhotonCore;
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -11,6 +12,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @TeleOp(name = "Field Relative")
@@ -34,10 +37,17 @@ public class FieldRelativeTeleop extends LinearOpMode {
     private BNO055IMU imu;
     private Servo Drew;
     private Servo Claw;
+    //import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.TIP_AUTHORITY;
+    //import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.TIP_TOLERANCE;
 
     //default angle is 0 degrees. Remember that your drivers should recalibrate if this happens by facing
     //the front of the robot away from them (i.e. the front of the robot is facing your opponents) and then press x.
     @Override
+
+
+    //public static double TIP_TOLERANCE = Math.toRadians(10);
+
+    //public static double TIP_AUTHORITY = 0.9;
     public void runOpMode() {
         telemetry.addLine("Davi's code suprisingly worked");
         telemetry.update();
@@ -82,6 +92,16 @@ public class FieldRelativeTeleop extends LinearOpMode {
 
 
     }
+
+    //public void setSafeDrivePower(Pose2d raw){
+        //Orientation i = imu.getAngularOrientation();
+        //float x = 0, y = 0, adjX = xOffset-i.secondAngle, adjY = i.thirdAngle-yOffset;
+        //if(Math.abs(adjY) > TIP_TOLERANCE) y = adjY;
+        //if(Math.abs(adjX) > TIP_TOLERANCE) x = adjX;
+//        //setWeightedDrivePower(raw.plus(new Pose2d(x>0 ? Math.max(x-TIP_TOLERANCE, 0) : Math.min(x+TIP_TOLERANCE, 0), y>0 ? Math.max(y-TIP_TOLERANCE, 0) : Math.min(y+TIP_TOLERANCE, 0), 0)));
+        //setWeightedDrivePower(raw.plus(new Pose2d(Range.clip(x*2, -TIP_AUTHORITY, TIP_AUTHORITY), Range.clip(y*2, -TIP_AUTHORITY, TIP_AUTHORITY), 0)));
+    //}
+
 
     public void drivetrain() {
 
@@ -150,7 +170,7 @@ public class FieldRelativeTeleop extends LinearOpMode {
             Claw.setPosition(75);
         }
         if (gamepad1.b) {
-            Claw.setPosition(0);
+            Claw.setPosition(25);
         }
         if (gamepad2.y) {
             Claw.setPosition(90);

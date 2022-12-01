@@ -187,7 +187,7 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        controller = new PIDController(0.01, 0.01, d);
+        controller = new PIDController(0.05, 0.01, d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         liftmotor1 = hardwareMap.get(DcMotorEx.class, "lift_motor");
