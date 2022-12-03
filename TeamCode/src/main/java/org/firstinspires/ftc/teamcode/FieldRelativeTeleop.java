@@ -13,13 +13,14 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @TeleOp(name = "Field Relative")
 public class FieldRelativeTeleop extends LinearOpMode {
 
-    public static double p = 0.01, i = 0.01, d = 0;
+    public static double p = 0.005, i = 0.01, d = 0;
     public static double f = 0;
     public static int target;
     private final double ticks_in_degree = 700 / 180.0;
@@ -143,32 +144,34 @@ public class FieldRelativeTeleop extends LinearOpMode {
 //        No Davi, We are NOT Having a Speed Boost!!!!
 
         if (gamepad2.dpad_up) {
-            target = 5000;
-            liftmotor1.setTargetPosition(target);
-            liftmotor2.setTargetPosition(target);
+            target = 500;
+            liftmotor1.setTargetPosition(500);
+            liftmotor2.setTargetPosition(500);
             liftmotor1.setPower(power);
             liftmotor2.setPower(power);
         }
-//        if (gamepad2.dpad_left) {
-//            target =5000;
-//            liftmotor1.setTargetPosition(target);
-//            liftmotor2.setTargetPosition(target);
-//            liftmotor1.setPower(power);
-//            liftmotor2.setPower(power);
-//        }
-//        if (gamepad2.dpad_left) {
-//            target = 1000;
-//            liftmotor1.setTargetPosition(target);
-//            liftmotor2.setTargetPosition(target);
-//            liftmotor1.setPower(power);
-//            liftmotor2.setPower(power);
-//        }
-        if (gamepad2.dpad_down) {
-            target = 2500;
-            liftmotor1.setTargetPosition(target);
-            liftmotor2.setTargetPosition(target);
-            liftmotor1.setPower(power);
-            liftmotor2.setPower(power);
+        else if (gamepad2.dpad_left) {
+            target = 400;
+            liftmotor1.setTargetPosition(400);
+            liftmotor2.setTargetPosition(400);
+            liftmotor1.setPower(power*1.5);
+            liftmotor2.setPower(power*1.5);
+        }
+        else if (gamepad2.dpad_right) {
+            target = 325;
+            liftmotor1.setTargetPosition(325);
+            liftmotor2.setTargetPosition(325);
+            liftmotor1.setPower(power*1.5);
+            liftmotor2.setPower(power*1.5);
+        }
+        else if (gamepad2.dpad_down) {
+            //new PIDController(p = 0.001, i =0.01, d = 0);
+            target = 100;
+            //power = 0.3;
+            liftmotor1.setTargetPosition(180);
+            liftmotor2.setTargetPosition(180);
+            liftmotor1.setPower(power*0.08); //changed
+            liftmotor2.setPower(power*0.08);
         }
         if (gamepad1.a) {
             Claw.setPosition(0.6);
@@ -177,13 +180,13 @@ public class FieldRelativeTeleop extends LinearOpMode {
             Claw.setPosition(0.4);
         }
         if (gamepad2.a) {
-            Drew.setPosition(30);
+            Drew.setPosition(0.4);
         }
         if (gamepad2.x) {
-            Drew.setPosition(0.5);
+            Drew.setPosition(0.45);
         }
         if (gamepad2.b) {
-            Drew.setPosition(0);
+            Drew.setPosition(0.5);
         }
 //
 
@@ -203,6 +206,7 @@ public class FieldRelativeTeleop extends LinearOpMode {
         telemetry.addData("Claw Aim", Drew.getPosition());
         telemetry.addData("liftmotor1position: ", liftmotor1.getTargetPosition());
         telemetry.addData("liftmotor2position, Davi Hates Code: ", liftmotor2.getTargetPosition());
+        telemetry.addData("CurrentLift", liftmotor1.getCurrent(CurrentUnit.AMPS));
 
         telemetry.update();
 
