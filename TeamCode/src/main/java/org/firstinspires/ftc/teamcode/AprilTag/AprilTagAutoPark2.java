@@ -63,31 +63,25 @@ public class AprilTagAutoPark2 extends LinearOpMode {
     private Servo Claw;
 
 
-    TrajectorySequence Red2Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(38, -60, Math.toRadians(90))).strafeLeft(26)
-            .forward(28)
-            .turn(Math.toRadians(-45))
-            .forward(2)
-            .addDisplacementMarker(() -> Claw.setPosition(0))
-            .addDisplacementMarker(1, () -> {
-                target = 5000;
-            })
-            .addDisplacementMarker(() -> {
-                Claw.setPosition(75);
-            })
-            .back(5)
-            .addDisplacementMarker(1, () -> {
-                target = 0;
-            })
-            .back(2)
-            .turn(Math.toRadians(45))
-            .forward(20)
-            .turn(Math.toRadians(-90))
+    TrajectorySequence Red2Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(36, -60, Math.toRadians(90)))
 
+            .forward(2)
+            .addDisplacementMarker(2, () -> {
+                target = 500;
+            })
+            .turn(Math.toRadians(45))
+            .waitSeconds(2)
+            .addDisplacementMarker(1, () -> {
+                target = 150;
+                power = (power*.4);
+            })
+            .turn(Math.toRadians(-45))
+            .forward(23)
 
             .build();
 
-    Trajectory Park2 = drivetrain.trajectoryBuilder(Red2Signal1.end()).forward(20).build();
-    Trajectory Park3 = drivetrain.trajectoryBuilder(Red2Signal1.end()).forward(42).build();
+    Trajectory Park2 = drivetrain.trajectoryBuilder(Red2Signal1.end()).strafeLeft(24).build();
+    Trajectory Park3 = drivetrain.trajectoryBuilder(Red2Signal1.end()).strafeRight(24).build();
 
     @Override
     public void runOpMode() {
@@ -154,6 +148,7 @@ public class AprilTagAutoPark2 extends LinearOpMode {
                 if (tag1Found) {
                     waitForStart();
                     drivetrain.followTrajectorySequence(Red2Signal1);
+                    drivetrain.followTrajectory(Park2);
 
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     telemetry.addLine("Anikets code is cracked and this is Davi's pat on back");
@@ -161,7 +156,6 @@ public class AprilTagAutoPark2 extends LinearOpMode {
                 } else if (tag2Found) {
                     waitForStart();
                     drivetrain.followTrajectorySequence(Red2Signal1);
-                    drivetrain.followTrajectory(Park2);
                 } else if (tag3Found) {
                     waitForStart();
                     drivetrain.followTrajectorySequence(Red2Signal1);

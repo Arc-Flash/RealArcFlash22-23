@@ -1,7 +1,3 @@
-//Need to change!!!!!!!!!!!!!!!!!!!!
-//This will end up as the preload and park auto only!!!!!!!!!!!!!!!!!
-
-
 package org.firstinspires.ftc.teamcode.AprilTag;
 
 import static org.firstinspires.ftc.teamcode.FieldRelativeTeleop.d;
@@ -14,8 +10,11 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.drivebase.MecanumDrive;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -37,6 +36,11 @@ public class AprilTagAutoPark1 extends LinearOpMode {
     private final double ticks_in_degree = 700 / 180.0;
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
+    private DcMotor frontLeft;
+    private DcMotor backLeft;
+    private DcMotor frontRight;
+    private DcMotor backRight;
+
     // Lens intrinsics
     // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
@@ -61,30 +65,26 @@ public class AprilTagAutoPark1 extends LinearOpMode {
     double power = pid + ff;
     private Servo Drew;
     private Servo Claw;
-    TrajectorySequence Red1Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(-38, -60, Math.toRadians(90))).strafeRight(26)
-            .strafeRight(26)
-            .forward(28)
-            .turn(Math.toRadians(45))
+
+    TrajectorySequence Red1Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
+
             .forward(2)
-            .addDisplacementMarker(1, () -> {
-                target = 5000;
+            .addDisplacementMarker(2, () -> {
+                target = 500;
             })
-            .addDisplacementMarker(() -> {
-                Claw.setPosition(75);
-            })
-            .back(5)
-            .addDisplacementMarker(1, () -> {
-                target = 0;
-            })
-            .back(2)
             .turn(Math.toRadians(-45))
-            .forward(20)
-            .turn(Math.toRadians(90))
+            .waitSeconds(2)
+            .addDisplacementMarker(1, () -> {
+                target = 150;
+                power = (power*.4);
+            })
+            .turn(Math.toRadians(45))
+            .forward(23)
 
             .build();
 
-    Trajectory Park2 = drivetrain.trajectoryBuilder(Red1Signal1.end()).forward(20).build();
-    Trajectory Park3 = drivetrain.trajectoryBuilder(Red1Signal1.end()).forward(42).build();
+    Trajectory Park2 = drivetrain.trajectoryBuilder(Red1Signal1.end()).strafeLeft(24).build();
+    Trajectory Park3 = drivetrain.trajectoryBuilder(Red1Signal1.end()).strafeRight(24).build();
 
     @Override
     public void runOpMode() {
@@ -93,6 +93,10 @@ public class AprilTagAutoPark1 extends LinearOpMode {
 
         liftmotor1 = hardwareMap.get(DcMotorEx.class, "lift_motor");
         liftmotor2 = hardwareMap.get(DcMotorEx.class, "liftmotor2");
+        frontLeft = hardwareMap.get(DcMotor.class, "leftFront");
+        backLeft = hardwareMap.get(DcMotor.class, "leftRear");
+        frontRight = hardwareMap.get(DcMotor.class, "rightFront");
+        backRight = hardwareMap.get(DcMotor.class, "rightRear");
         Drew = hardwareMap.get(Servo.class, "ClawAim");
         Claw = hardwareMap.get(Servo.class, "Claw");
 
@@ -152,22 +156,31 @@ public class AprilTagAutoPark1 extends LinearOpMode {
                 if (tag1Found) {
                     waitForStart();
                     drivetrain.followTrajectorySequence(Red1Signal1);
-                    drivetrain.followTrajectory(Park3);
+                    drivetrain.followTrajectory(Park2);
+
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     telemetry.addLine("Anikets code is cracked and this is Davi's pat on back");
                     tagToTelemetry(tagOfInterest);
                 } else if (tag2Found) {
                     waitForStart();
                     drivetrain.followTrajectorySequence(Red1Signal1);
-                    drivetrain.followTrajectory(Park2);
                 } else if (tag3Found) {
                     waitForStart();
                     drivetrain.followTrajectorySequence(Red1Signal1);
+                    drivetrain.followTrajectory(Park3);
 
                 }
 
             } else {
                 telemetry.addLine("Don't see tag of interest :(");
+                frontRight.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+                frontLeft.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+                backRight.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+                backLeft.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+                frontLeft.setTargetPosition(500);
+                backLeft.setTargetPosition(500);
+                frontRight.setTargetPosition(500);
+                backRight.setTargetPosition(500);
 
                 if (tagOfInterest == null) {
                     telemetry.addLine("(The tag has never been seen)");

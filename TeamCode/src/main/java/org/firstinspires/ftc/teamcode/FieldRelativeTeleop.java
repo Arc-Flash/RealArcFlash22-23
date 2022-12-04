@@ -95,12 +95,12 @@ public class FieldRelativeTeleop extends LinearOpMode {
     }
 
     //public void setSafeDrivePower(Pose2d raw){
-        //Orientation i = imu.getAngularOrientation();
-        //float x = 0, y = 0, adjX = xOffset-i.secondAngle, adjY = i.thirdAngle-yOffset;
-        //if(Math.abs(adjY) > TIP_TOLERANCE) y = adjY;
-        //if(Math.abs(adjX) > TIP_TOLERANCE) x = adjX;
+    //Orientation i = imu.getAngularOrientation();
+    //float x = 0, y = 0, adjX = xOffset-i.secondAngle, adjY = i.thirdAngle-yOffset;
+    //if(Math.abs(adjY) > TIP_TOLERANCE) y = adjY;
+    //if(Math.abs(adjX) > TIP_TOLERANCE) x = adjX;
 //        //setWeightedDrivePower(raw.plus(new Pose2d(x>0 ? Math.max(x-TIP_TOLERANCE, 0) : Math.min(x+TIP_TOLERANCE, 0), y>0 ? Math.max(y-TIP_TOLERANCE, 0) : Math.min(y+TIP_TOLERANCE, 0), 0)));
-        //setWeightedDrivePower(raw.plus(new Pose2d(Range.clip(x*2, -TIP_AUTHORITY, TIP_AUTHORITY), Range.clip(y*2, -TIP_AUTHORITY, TIP_AUTHORITY), 0)));
+    //setWeightedDrivePower(raw.plus(new Pose2d(Range.clip(x*2, -TIP_AUTHORITY, TIP_AUTHORITY), Range.clip(y*2, -TIP_AUTHORITY, TIP_AUTHORITY), 0)));
     //}
 
 
@@ -109,7 +109,7 @@ public class FieldRelativeTeleop extends LinearOpMode {
         controller.setPID(p, i, d);
         int liftPos = liftmotor1.getCurrentPosition();
         double pid = controller.calculate(liftPos, target);
-        double ff = Math.cos(Math.toRadians(target  / ticks_in_degree)) * f;
+        double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
 
         double power = pid + ff;
 
@@ -149,45 +149,48 @@ public class FieldRelativeTeleop extends LinearOpMode {
             liftmotor2.setTargetPosition(500);
             liftmotor1.setPower(power);
             liftmotor2.setPower(power);
-        }
-        else if (gamepad2.dpad_left) {
+        } else if (gamepad2.dpad_left) {
             target = 400;
             liftmotor1.setTargetPosition(400);
             liftmotor2.setTargetPosition(400);
-            liftmotor1.setPower(power*1.5);
-            liftmotor2.setPower(power*1.5);
-        }
-        else if (gamepad2.dpad_right) {
+            liftmotor1.setPower(power * 1.5);
+            liftmotor2.setPower(power * 1.5);
+        } else if (gamepad2.dpad_right) {
             target = 325;
             liftmotor1.setTargetPosition(325);
             liftmotor2.setTargetPosition(325);
-            liftmotor1.setPower(power*1.5);
-            liftmotor2.setPower(power*1.5);
-        }
-        else if (gamepad2.dpad_down) {
+            liftmotor1.setPower(power * 1.5);
+            liftmotor2.setPower(power * 1.5);
+        } else if (gamepad2.dpad_down) {
             //new PIDController(p = 0.001, i =0.01, d = 0);
             target = 100;
             //power = 0.3;
             liftmotor1.setTargetPosition(180);
             liftmotor2.setTargetPosition(180);
-            liftmotor1.setPower(power*0.08); //changed
-            liftmotor2.setPower(power*0.08);
+            liftmotor1.setPower(power * 0.08); //changed
+            liftmotor2.setPower(power * 0.08);
         }
         if (gamepad1.a) {
-            Claw.setPosition(0.6);
+            Claw.setPosition(1);
         }
         if (gamepad1.b) {
-            Claw.setPosition(0.4);
+            Claw.setPosition(0.3);
         }
-        if (gamepad2.a) {
+        if (gamepad2.y) {
             Drew.setPosition(0.4);
         }
+
         if (gamepad2.x) {
-            Drew.setPosition(0.45);
+            Drew.setPosition(0);
         }
-        if (gamepad2.b) {
-            Drew.setPosition(0.5);
-        }
+        Drew.setPosition(gamepad2.right_trigger);
+
+        liftmotor1.setPower(gamepad2.left_stick_y * -1);
+        liftmotor2.setPower(gamepad2.left_stick_y * -1);
+
+        Drew.setPosition(-gamepad2.right_stick_y);
+
+
 //
 
         //setting powers correctly
