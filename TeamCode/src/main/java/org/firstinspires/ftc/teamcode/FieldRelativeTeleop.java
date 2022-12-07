@@ -27,10 +27,10 @@ public class FieldRelativeTeleop extends LinearOpMode {
     double speedModifier = 0.8; //@TODO If your drivers complain that the robot is too fast fix this :)
     double robotAngle = 0; //For Field Relative
     double angleZeroValue = org.firstinspires.ftc.teamcode.StaticField.autonHeading;  //gets value from auton. if auton fails for some reason the
-    private DcMotor frontLeft;
-    private DcMotor backLeft;
-    private DcMotor frontRight;
-    private DcMotor backRight;
+    private DcMotorEx frontLeft;
+    private DcMotorEx backLeft;
+    private DcMotorEx frontRight;
+    private DcMotorEx backRight;
 
     private DcMotorEx liftmotor1;
     private DcMotorEx liftmotor2;
@@ -54,10 +54,10 @@ public class FieldRelativeTeleop extends LinearOpMode {
         telemetry.update();
         PhotonCore.enable();
         //@TODO Check hardware mappings
-        frontLeft = hardwareMap.get(DcMotor.class, "leftFront");
-        backLeft = hardwareMap.get(DcMotor.class, "leftRear");
-        frontRight = hardwareMap.get(DcMotor.class, "rightFront");
-        backRight = hardwareMap.get(DcMotor.class, "rightRear");
+        frontLeft = hardwareMap.get(DcMotorEx.class, "leftFront");
+        backLeft = hardwareMap.get(DcMotorEx.class, "leftRear");
+        frontRight = hardwareMap.get(DcMotorEx.class, "rightFront");
+        backRight = hardwareMap.get(DcMotorEx.class, "rightRear");
         Drew = hardwareMap.get(Servo.class, "ClawAim");
         Claw = hardwareMap.get(Servo.class, "Claw");
 //
@@ -147,20 +147,20 @@ public class FieldRelativeTeleop extends LinearOpMode {
             target = 500;
             liftmotor1.setTargetPosition(500);
             liftmotor2.setTargetPosition(500);
-            liftmotor1.setPower(power);
-            liftmotor2.setPower(power);
+            liftmotor1.setPower(power*0.5);
+            liftmotor2.setPower(power*0.5);
         } else if (gamepad2.dpad_left) {
             target = 400;
             liftmotor1.setTargetPosition(400);
             liftmotor2.setTargetPosition(400);
-            liftmotor1.setPower(power * 1.5);
-            liftmotor2.setPower(power * 1.5);
+            liftmotor1.setPower(power * 0.5);
+            liftmotor2.setPower(power * 0.5);
         } else if (gamepad2.dpad_right) {
             target = 325;
             liftmotor1.setTargetPosition(325);
             liftmotor2.setTargetPosition(325);
-            liftmotor1.setPower(power * 1.5);
-            liftmotor2.setPower(power * 1.5);
+            liftmotor1.setPower(power * 0.5);
+            liftmotor2.setPower(power * 0.5);
         } else if (gamepad2.dpad_down) {
             //new PIDController(p = 0.001, i =0.01, d = 0);
             target = 100;
@@ -174,30 +174,33 @@ public class FieldRelativeTeleop extends LinearOpMode {
             Claw.setPosition(1);
         }
         if (gamepad1.b) {
-            Claw.setPosition(0.3);
+            Claw.setPosition(0.1);
         }
         if (gamepad2.y) {
-            Drew.setPosition(0.4);
+            Drew.setPosition(0.7);
         }
 
         if (gamepad2.x) {
+            Drew.setPosition(0.5);
+        }
+        if (gamepad2.a) {
             Drew.setPosition(0);
         }
-        Drew.setPosition(gamepad2.right_trigger);
+//        Drew.setPosition(gamepad2.right_trigger);
 
         liftmotor1.setPower(gamepad2.left_stick_y * -1);
         liftmotor2.setPower(gamepad2.left_stick_y * -1);
-
-        Drew.setPosition(-gamepad2.right_stick_y);
+//
+//        Drew.setPosition(-gamepad2.right_stick_y);
 
 
 //
 
         //setting powers correctly
-        frontLeft.setPower(leftFrontPower * speedModifier);
-        frontRight.setPower(rightFrontPower * speedModifier);
-        backLeft.setPower(leftBackPower * speedModifier);
-        backRight.setPower(rightBackPower * speedModifier);
+        frontLeft.setPower(leftFrontPower * 0.5);
+        frontRight.setPower(rightFrontPower * 0.5);
+        backLeft.setPower(leftBackPower * 0.5);
+        backRight.setPower(rightBackPower * 0.5);
 
 
         telemetry.addData("Robot Angle: ", robotAngle); //this is all telemetry stuff
@@ -210,8 +213,15 @@ public class FieldRelativeTeleop extends LinearOpMode {
         telemetry.addData("liftmotor1position: ", liftmotor1.getTargetPosition());
         telemetry.addData("liftmotor2position, Davi Hates Code: ", liftmotor2.getTargetPosition());
         telemetry.addData("CurrentLift", liftmotor1.getCurrent(CurrentUnit.AMPS));
-
+        telemetry.addData("CurrentLift2", liftmotor2.getCurrent(CurrentUnit.AMPS));
+        telemetry.addData("Front Left Current: ", frontLeft.getCurrent(CurrentUnit.AMPS));
+        telemetry.addData("Front Right Current: ", frontRight.getCurrent(CurrentUnit.AMPS));
+        telemetry.addData("Rear Left Current: ", backLeft.getCurrent(CurrentUnit.AMPS));
+        telemetry.addData("Rear Right Current: ",  backRight.getCurrent(CurrentUnit.AMPS));
+        telemetry.addData("Total Current: ",  backLeft.getCurrent(CurrentUnit.AMPS) + backRight.getCurrent(CurrentUnit.AMPS) +  frontRight.getCurrent(CurrentUnit.AMPS) + frontLeft.getCurrent(CurrentUnit.AMPS) +  liftmotor2.getCurrent(CurrentUnit.AMPS) +liftmotor1.getCurrent(CurrentUnit.AMPS) );
+        telemetry.addData("Front Left Current: ",  leftFrontPower + rightFrontPower + leftBackPower +  rightBackPower + liftmotor1.getPower() + liftmotor2.getPower());
         telemetry.update();
+
 
 
     }
