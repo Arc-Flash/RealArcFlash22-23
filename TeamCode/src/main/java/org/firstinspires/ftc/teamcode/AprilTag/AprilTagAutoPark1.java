@@ -55,31 +55,31 @@ public class AprilTagAutoPark1 extends LinearOpMode {
     int ID_TAG_OF_INTEREST_2 = 18;
     int ID_TAG_OF_INTEREST_3 = 19;
     AprilTagDetection tagOfInterest = null;
-    SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
-    double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
-    private DcMotorEx liftmotor1;
-    int liftPos = liftmotor1.getCurrentPosition();
-    private DcMotorEx liftmotor2;
-    private PIDController controller;
-    double pid = controller.calculate(liftPos, target);
-    double power = pid + ff;
-    private Servo Drew;
-    private Servo Claw;
+    SampleMecanumDrive drivetrain;
+//    double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
+//    private DcMotorEx liftmotor1;
+//    int liftPos = 0;
+//    private DcMotorEx liftmotor2;
+//    private PIDController controller;
+//    double pid = 0;
+//    double power = pid + ff;
+//    private Servo Drew;
+//    private Servo Claw;
 
     TrajectorySequence Red1Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
 
-            .forward(2)
-            .addDisplacementMarker(2, () -> {
-                target = 500;
-            })
-            .turn(Math.toRadians(-45))
-            .waitSeconds(2)
-            .addDisplacementMarker(1, () -> {
-                target = 150;
-                power = (power*.4);
-            })
-            .turn(Math.toRadians(45))
-            .forward(23)
+            .forward(25)
+//            .addDisplacementMarker(2, () -> {
+//                target = 500;
+//            })
+//            .turn(Math.toRadians(-45))
+//            .waitSeconds(2)
+//            .addDisplacementMarker(1, () -> {
+//                target = 150;
+//                power = (power*.4);
+//            })
+//            .turn(Math.toRadians(45))
+//            .forward(23)
 
             .build();
 
@@ -88,23 +88,25 @@ public class AprilTagAutoPark1 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        controller = new PIDController(p, i, d);
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
-        liftmotor1 = hardwareMap.get(DcMotorEx.class, "lift_motor");
-        liftmotor2 = hardwareMap.get(DcMotorEx.class, "liftmotor2");
+//        controller = new PIDController(p, i, d);
+//        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+//
+//        liftmotor1 = hardwareMap.get(DcMotorEx.class, "lift_motor");
+//        liftmotor2 = hardwareMap.get(DcMotorEx.class, "liftmotor2");
         frontLeft = hardwareMap.get(DcMotor.class, "leftFront");
         backLeft = hardwareMap.get(DcMotor.class, "leftRear");
         frontRight = hardwareMap.get(DcMotor.class, "rightFront");
         backRight = hardwareMap.get(DcMotor.class, "rightRear");
-        Drew = hardwareMap.get(Servo.class, "ClawAim");
-        Claw = hardwareMap.get(Servo.class, "Claw");
+//        Drew = hardwareMap.get(Servo.class, "ClawAim");
+//        Claw = hardwareMap.get(Servo.class, "Claw");
+
+        drivetrain = new SampleMecanumDrive(hardwareMap);
 
 
-        telemetry.addData("pos ", liftPos);
-        telemetry.addData("target ", target);
-        telemetry.addData("DrewPos", Drew.getPosition());
-        telemetry.update();
+//        telemetry.addData("pos ", liftPos);
+//        telemetry.addData("target ", target);
+//        telemetry.addData("DrewPos", Drew.getPosition());
+//        telemetry.update();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -173,14 +175,14 @@ public class AprilTagAutoPark1 extends LinearOpMode {
 
             } else {
                 telemetry.addLine("Don't see tag of interest :(");
-                frontRight.setMode((DcMotor.RunMode.RUN_TO_POSITION));
-                frontLeft.setMode((DcMotor.RunMode.RUN_TO_POSITION));
-                backRight.setMode((DcMotor.RunMode.RUN_TO_POSITION));
-                backLeft.setMode((DcMotor.RunMode.RUN_TO_POSITION));
-                frontLeft.setTargetPosition(500);
-                backLeft.setTargetPosition(500);
-                frontRight.setTargetPosition(500);
-                backRight.setTargetPosition(500);
+//                frontRight.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+//                frontLeft.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+//                backRight.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+//                backLeft.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+//                frontLeft.setTargetPosition(500);
+//                backLeft.setTargetPosition(500);
+//                frontRight.setTargetPosition(500);
+//                backRight.setTargetPosition(500);
 
                 if (tagOfInterest == null) {
                     telemetry.addLine("(The tag has never been seen)");
