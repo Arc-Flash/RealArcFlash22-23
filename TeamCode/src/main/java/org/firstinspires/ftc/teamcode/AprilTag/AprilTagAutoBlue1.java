@@ -47,7 +47,7 @@ public class AprilTagAutoBlue1 extends LinearOpMode {
     int ID_TAG_OF_INTEREST = 17; // Tag ID 17 from the 36h11 family
     int ID_TAG_OF_INTEREST_2 = 18;
     int ID_TAG_OF_INTEREST_3 = 19;
-    AprilTagDetection tagOfInterest = null;
+    AprilTagDetection tagOfInterest;
     SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
     private DcMotorEx liftmotor1;
     private DcMotorEx liftmotor2;
