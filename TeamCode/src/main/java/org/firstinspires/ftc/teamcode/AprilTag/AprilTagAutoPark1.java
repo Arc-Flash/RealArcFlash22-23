@@ -55,7 +55,7 @@ public class AprilTagAutoPark1 extends LinearOpMode {
     int ID_TAG_OF_INTEREST_2 = 18;
     int ID_TAG_OF_INTEREST_3 = 19;
     AprilTagDetection tagOfInterest = null;
-    SampleMecanumDrive drivetrain;
+    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 //    double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
 //    private DcMotorEx liftmotor1;
 //    int liftPos = 0;
@@ -66,25 +66,15 @@ public class AprilTagAutoPark1 extends LinearOpMode {
 //    private Servo Drew;
 //    private Servo Claw;
 
-    TrajectorySequence Red1Signal1 = drivetrain.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
+    Trajectory Red1Signal1 = drive.trajectoryBuilder(new Pose2d())
 
             .forward(25)
-//            .addDisplacementMarker(2, () -> {
-//                target = 500;
-//            })
-//            .turn(Math.toRadians(-45))
-//            .waitSeconds(2)
-//            .addDisplacementMarker(1, () -> {
-//                target = 150;
-//                power = (power*.4);
-//            })
-//            .turn(Math.toRadians(45))
-//            .forward(23)
+
 
             .build();
 
-    Trajectory Park2 = drivetrain.trajectoryBuilder(Red1Signal1.end()).strafeLeft(24).build();
-    Trajectory Park3 = drivetrain.trajectoryBuilder(Red1Signal1.end()).strafeRight(24).build();
+    Trajectory Park2 = drive.trajectoryBuilder(Red1Signal1.end()).strafeLeft(24).build();
+    Trajectory Park3 = drive.trajectoryBuilder(Red1Signal1.end()).strafeRight(24).build();
 
     @Override
     public void runOpMode() {
@@ -100,7 +90,6 @@ public class AprilTagAutoPark1 extends LinearOpMode {
 //        Drew = hardwareMap.get(Servo.class, "ClawAim");
 //        Claw = hardwareMap.get(Servo.class, "Claw");
 
-        drivetrain = new SampleMecanumDrive(hardwareMap);
 
 
 //        telemetry.addData("pos ", liftPos);
@@ -157,19 +146,19 @@ public class AprilTagAutoPark1 extends LinearOpMode {
 
                 if (tag1Found) {
                     waitForStart();
-                    drivetrain.followTrajectorySequence(Red1Signal1);
-                    drivetrain.followTrajectory(Park2);
+                    drive.followTrajectory(Red1Signal1);
+                    drive.followTrajectory(Park2);
 
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     telemetry.addLine("Anikets code is cracked and this is Davi's pat on back");
                     tagToTelemetry(tagOfInterest);
                 } else if (tag2Found) {
                     waitForStart();
-                    drivetrain.followTrajectorySequence(Red1Signal1);
+                    drive.followTrajectory(Red1Signal1);
                 } else if (tag3Found) {
                     waitForStart();
-                    drivetrain.followTrajectorySequence(Red1Signal1);
-                    drivetrain.followTrajectory(Park3);
+                    drive.followTrajectory(Red1Signal1);
+                    drive.followTrajectory(Park3);
 
                 }
 
