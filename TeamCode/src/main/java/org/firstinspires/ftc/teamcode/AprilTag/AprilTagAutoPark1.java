@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -55,7 +56,7 @@ public class AprilTagAutoPark1 extends LinearOpMode {
     int ID_TAG_OF_INTEREST_2 = 18;
     int ID_TAG_OF_INTEREST_3 = 19;
     AprilTagDetection tagOfInterest = null;
-    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    SampleMecanumDrive drive;
 //    double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
 //    private DcMotorEx liftmotor1;
 //    int liftPos = 0;
@@ -66,18 +67,19 @@ public class AprilTagAutoPark1 extends LinearOpMode {
 //    private Servo Drew;
 //    private Servo Claw;
 
-    Trajectory Red1Signal1 = drive.trajectoryBuilder(new Pose2d())
-
-            .forward(25)
-
-
-            .build();
-
-    Trajectory Park2 = drive.trajectoryBuilder(Red1Signal1.end()).strafeLeft(24).build();
-    Trajectory Park3 = drive.trajectoryBuilder(Red1Signal1.end()).strafeRight(24).build();
 
     @Override
     public void runOpMode() {
+        drive = new SampleMecanumDrive(hardwareMap);
+        Trajectory Red1Signal1 = drive.trajectoryBuilder(new Pose2d())
+
+                .forward(30)
+
+
+                .build();
+
+        Trajectory Park2 = drive.trajectoryBuilder(Red1Signal1.end()).strafeLeft(45).build();
+        Trajectory Park3 = drive.trajectoryBuilder(Red1Signal1.end()).strafeRight(45).build();
 //        controller = new PIDController(p, i, d);
 //        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 //
@@ -87,6 +89,8 @@ public class AprilTagAutoPark1 extends LinearOpMode {
         backLeft = hardwareMap.get(DcMotor.class, "leftRear");
         frontRight = hardwareMap.get(DcMotor.class, "rightFront");
         backRight = hardwareMap.get(DcMotor.class, "rightRear");
+
+
 //        Drew = hardwareMap.get(Servo.class, "ClawAim");
 //        Claw = hardwareMap.get(Servo.class, "Claw");
 
@@ -105,7 +109,7 @@ public class AprilTagAutoPark1 extends LinearOpMode {
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(800, 448, OpenCvCameraRotation.SIDEWAYS_RIGHT);
             }
 
             @Override
@@ -164,14 +168,6 @@ public class AprilTagAutoPark1 extends LinearOpMode {
 
             } else {
                 telemetry.addLine("Don't see tag of interest :(");
-//                frontRight.setMode((DcMotor.RunMode.RUN_TO_POSITION));
-//                frontLeft.setMode((DcMotor.RunMode.RUN_TO_POSITION));
-//                backRight.setMode((DcMotor.RunMode.RUN_TO_POSITION));
-//                backLeft.setMode((DcMotor.RunMode.RUN_TO_POSITION));
-//                frontLeft.setTargetPosition(500);
-//                backLeft.setTargetPosition(500);
-//                frontRight.setTargetPosition(500);
-//                backRight.setTargetPosition(500);
 
                 if (tagOfInterest == null) {
                     telemetry.addLine("(The tag has never been seen)");
@@ -201,26 +197,8 @@ public class AprilTagAutoPark1 extends LinearOpMode {
             telemetry.update();
         }
 
-        /* Actually do something useful */
-        if (tagOfInterest == null) {
-            /*
-             * Insert your autonomous code here, presumably running some default configuration
-             * since the tag was never sighted during INIT
-             */
-        } else {
-            /*
-             * Insert your autonomous code here, probably using the tag pose to decide your configuration.
-             */
 
-            // e.g.
-            if (tagOfInterest.pose.x <= 20) {
-                // do something
-            } else if (tagOfInterest.pose.x >= 20 && tagOfInterest.pose.x <= 50) {
-                // do something else
-            } else if (tagOfInterest.pose.x >= 50) {
-                // do something else
-            }
-        }
+
 
 
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
