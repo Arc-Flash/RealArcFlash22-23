@@ -132,7 +132,7 @@ class AprilTagDetectionPipeline extends OpenCvPipeline
         synchronized (detectionsUpdateSync)
         {
             ArrayList<AprilTagDetection> ret = detectionsUpdate;
-            detectionsUpdate = null;
+//            detectionsUpdate = null;
             return ret;
         }
     }

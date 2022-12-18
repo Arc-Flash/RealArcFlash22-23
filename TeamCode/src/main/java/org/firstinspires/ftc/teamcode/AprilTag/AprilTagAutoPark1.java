@@ -109,7 +109,7 @@ public class AprilTagAutoPark1 extends LinearOpMode {
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                camera.startStreaming(800, 448, OpenCvCameraRotation.SIDEWAYS_RIGHT);
+                camera.startStreaming(800, 448, OpenCvCameraRotation.SIDEWAYS_LEFT);
             }
 
             @Override
@@ -118,7 +118,7 @@ public class AprilTagAutoPark1 extends LinearOpMode {
             }
         });
 
-        telemetry.setMsTransmissionInterval(50);
+        telemetry.setMsTransmissionInterval(25);
 
         /*
          * The INIT-loop:
@@ -128,37 +128,52 @@ public class AprilTagAutoPark1 extends LinearOpMode {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
             if (currentDetections.size() != 0) {
+                boolean num = true;
                 boolean tag1Found = false;
                 boolean tag2Found = false;
                 boolean tag3Found = false;
 
                 for (AprilTagDetection tag : currentDetections) {
-                    if (tag.id == ID_TAG_OF_INTEREST) {
-                        tagOfInterest = tag;
-                        tag1Found = true;
-                        break;
-                    } else if (tag.id == ID_TAG_OF_INTEREST_2) {
-                        tagOfInterest = tag;
-                        tag2Found = true;
-                        break;
-                    } else if (tag.id == ID_TAG_OF_INTEREST_3) {
-                        tagOfInterest = tag;
-                        tag3Found = true;
-                        break;
+                    while (num = true) {
+                        if (tag.id == ID_TAG_OF_INTEREST_2) {
+                            tagOfInterest = tag;
+                            tag2Found = true;
+                            tag1Found = false;
+                            tag3Found = false;
+                            telemetry.addLine("Tag 2 Found");
+//                        break;
+                        }
+                        if (tag.id == ID_TAG_OF_INTEREST) {
+                            tagOfInterest = tag;
+                            tag2Found = false;
+                            tag1Found = true;
+                            tag3Found = false;
+                            telemetry.addLine("Tag 1 Found");
+//                        break;
+                        }
+                        if (tag.id == ID_TAG_OF_INTEREST_3) {
+                            tagOfInterest = tag;
+                            tag2Found = false;
+                            tag1Found = false;
+                            tag3Found = true;
+                            telemetry.addLine("Tag 3 Found");
+//                        break;
+                        }
                     }
                 }
 
-                if (tag1Found) {
+                if (tag2Found) {
                     waitForStart();
                     drive.followTrajectory(Red1Signal1);
-                    drive.followTrajectory(Park2);
+
 
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     telemetry.addLine("Anikets code is cracked and this is Davi's pat on back");
                     tagToTelemetry(tagOfInterest);
-                } else if (tag2Found) {
+                } else if (tag1Found) {
                     waitForStart();
                     drive.followTrajectory(Red1Signal1);
+                    drive.followTrajectory(Park2);
                 } else if (tag3Found) {
                     waitForStart();
                     drive.followTrajectory(Red1Signal1);
@@ -179,7 +194,7 @@ public class AprilTagAutoPark1 extends LinearOpMode {
             }
 
             telemetry.update();
-            sleep(20);
+
         }
 
         /*

@@ -197,10 +197,10 @@ public class FieldRelativeTeleop extends LinearOpMode {
 //
 
         //setting powers correctly
-        frontLeft.setPower(leftFrontPower * 0.5);
-        frontRight.setPower(rightFrontPower * 0.5);
-        backLeft.setPower(leftBackPower * 0.5);
-        backRight.setPower(rightBackPower * 0.5);
+        frontLeft.setPower(leftFrontPower * 0.6);
+        frontRight.setPower(rightFrontPower * 0.6);
+        backLeft.setPower(leftBackPower * 0.6);
+        backRight.setPower(rightBackPower * 0.6);
 
 
         telemetry.addData("Robot Angle: ", robotAngle); //this is all telemetry stuff
